@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2690562483672761471}
-  - component: {fileID: 7986828235265586543}
   - component: {fileID: 3241938447203629049}
   m_Layer: 0
   m_Name: AudioPlayer
@@ -35,27 +34,6 @@ Transform:
   - {fileID: 2787245145273321803}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7986828235265586543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 430059468352991996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b27ffec04e0950c4f9d2f26185eef62a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _musicSource: {fileID: 2428977334332883101}
-  _sfxSource: {fileID: 259877632995639450}
-  _playerShootClip: {fileID: 8300000, guid: f7dcc2fdd5a05ed479839593fafb6493, type: 3}
-  _playerDeathClip: {fileID: 8300000, guid: b8cd1f976eda27545b2df9bc9657ca57, type: 3}
-  _enemyShootClip: {fileID: 8300000, guid: ed23087516b7be84a9d5d7542f56922f, type: 3}
-  _enemyDeathClip: {fileID: 8300000, guid: da630566e862b2e4fbc92f22f8987496, type: 3}
-  _mainMenuClip: {fileID: 8300000, guid: a692117c69954e043b52df5a0e35c4cd, type: 3}
-  _gameOverMenueClip: {fileID: 8300000, guid: 0b5cef2433a06ff4dabe417e86f42d32, type: 3}
-  _gameClip: {fileID: 8300000, guid: ec99cc41310f35c408788cdd30ba152c, type: 3}
 --- !u!114 &3241938447203629049
 MonoBehaviour:
   m_ObjectHideFlags: 0

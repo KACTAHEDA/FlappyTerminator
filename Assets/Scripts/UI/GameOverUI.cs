@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private Player _player;
     [SerializeField] private ScoreCounter _scoreCounter;
+    [SerializeField] private MusicPlayer _musicPlayer;
+    [SerializeField] private SceneLoader _sceneLoader;
 
     [SerializeField] private TextMeshProUGUI _scoreText;
     [SerializeField] private Button _restartButton;
@@ -15,12 +16,12 @@ public class GameOverUI : MonoBehaviour
     private void Awake()
     {
        gameObject.SetActive(false);
-        _player.GameOver += ShowGameOverUI;
+        _player.Died += ShowGameOverUI;
     }
 
     private void OnDisable()
     {
-        _player.GameOver -= ShowGameOverUI;
+        _player.Died -= ShowGameOverUI;
     }
 
     private void ShowGameOverUI()
@@ -28,22 +29,17 @@ public class GameOverUI : MonoBehaviour
         Time.timeScale = 0;
         gameObject.SetActive(true);
         _scoreText.text = $"{_scoreCounter.CurentScore}";
-        AudioPlayer.Instance.PlayGameOverClip();
+        _musicPlayer.PlayGameOverClip();
+    }
+
+    public void ReturnToMainMenu()
+    {
+        _sceneLoader.LoadMainMenu();
     }
 
     public void Restart()
     {
         Time.timeScale = 1;
-        AudioPlayer.Instance.PlayGameClip();
-        SceneLoader.Instance.LoadGame();
-    }
-
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-    Application.Quit();
-#endif
+        _sceneLoader.LoadGame();
     }
 }

@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private Shooter _shooter;
     [SerializeField] private Mover _mover;
-    [SerializeField] private HealthSystem _healthSystem;
-    [SerializeField] private CollisionsHandler _collisionsHandler;
+    [SerializeField] private HealthSystem _healthSystem;    
 
-    public event Action GameOver;
+    public event Action Died;
+    public event Action Shooted;
 
     private void Awake()
     {
@@ -34,13 +34,12 @@ public class Player : MonoBehaviour
 
     private void OnDieing()
     {
-        AudioPlayer.Instance.PlayPlayerDeathClip();
-        GameOver?.Invoke();
+        Died?.Invoke();
         gameObject.SetActive(false);
     }
 
     private void OnShooting()
     {
-        AudioPlayer.Instance.PlayPlayerShootClip();
+        Shooted?.Invoke();
     }
 }

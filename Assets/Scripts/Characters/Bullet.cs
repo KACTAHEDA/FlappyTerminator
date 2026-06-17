@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D) , typeof(Collider2D))]
-public class Bullet : MonoBehaviour, IDamageDealer, IPoolable
+public class Bullet : MonoBehaviour, IDamageDealer
 {
     [SerializeField] private int _damage = 1;
     [SerializeField] private float _speed = 10;
@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour, IDamageDealer, IPoolable
 
     public int Damage => _damage;
 
-    public event Action<Bullet> OnBulletFree;
+    public event Action<Bullet> LifetimeEnded;
 
     private void Awake()
     {
@@ -47,13 +47,13 @@ public class Bullet : MonoBehaviour, IDamageDealer, IPoolable
         _rigidbody.velocity = direction * _speed;
     }
 
-    public void DealDamage(IDamageble target)
+    public void DealDamage(IDamageable target)
     {
         target.TakeDamage(_damage);
         Release();
     }
 
-    public void ReturnToPool()
+    public void Disappear()
     {
         Release();
     }
@@ -74,6 +74,6 @@ public class Bullet : MonoBehaviour, IDamageDealer, IPoolable
 
         _isReleased = true;
         _rigidbody.velocity = Vector2.zero;
-        OnBulletFree?.Invoke(this);
+        LifetimeEnded?.Invoke(this);
     }
 }

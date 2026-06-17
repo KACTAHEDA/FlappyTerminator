@@ -3,9 +3,9 @@ using System;
 
 public class ScoreCounter : MonoBehaviour
 {
-    public int CurentScore { get; private set; }
-
     public event Action ScoreChanged;
+
+    public int CurentScore { get; private set; }
 
     public void AddScore(int value)
     {

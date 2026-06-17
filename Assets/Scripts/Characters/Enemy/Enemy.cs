@@ -4,7 +4,7 @@ using System;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Shooter))]
-public class Enemy : MonoBehaviour , IPoolable , IDamageDealer
+public class Enemy : MonoBehaviour , IDamageDealer
 {
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _shootInterval = 2f;
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour , IPoolable , IDamageDealer
     public int ScorePrice => _scorePrice;
 
     public event Action<Enemy> Dead;
-    public event Action<Enemy> Despawned;
+    public event Action<Enemy> Shooted;
 
     private void Awake()
     {
@@ -44,19 +44,9 @@ public class Enemy : MonoBehaviour , IPoolable , IDamageDealer
         _healthSystem.Died -= OnDieing;
     }
 
-    public void ReturnToPool()
-    {
-        Despawned?.Invoke(this);
-    }
-
-    public void DealDamage(IDamageble target)
+    public void DealDamage(IDamageable target)
     {
         target.TakeDamage(_collisionDamage);
-    }
-
-    public void ClearDeadEvent()
-    {
-        Dead = null;
     }
 
     private IEnumerator ShootCoroutine()
@@ -70,7 +60,7 @@ public class Enemy : MonoBehaviour , IPoolable , IDamageDealer
             if (_isAlive == true && _shooter != null)
             {
                 _shooter.Shoot();
-                AudioPlayer.Instance.PlayEnemyShootClip();
+                Shooted?.Invoke(this);
             }          
         }
     }
@@ -87,7 +77,6 @@ public class Enemy : MonoBehaviour , IPoolable , IDamageDealer
 
     private void OnDieing()
     {
-        AudioPlayer.Instance.PlayEnemyDeathClip();
         _isAlive = false;
 
         if(_shootCoroutine != null)

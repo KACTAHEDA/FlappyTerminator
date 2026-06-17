@@ -33,9 +33,13 @@ public class EnemySpawner : MonoBehaviour
     private void OnDisable()
     {
         if (_spawnCoroutine != null)
-        {
             StopCoroutine(_spawnCoroutine);
-        }
+    }
+
+    public void HandleEnemyDespawn(Enemy enemy)
+    {
+        enemy.Dead -= HandleEnemyDead;
+        _enemysPool.Release(enemy);
     }
 
     private IEnumerator SpawnCoroutine()
@@ -52,19 +56,16 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         if (_spawnPoints == null || _spawnPoints.Count == 0)
-        {
             return;
-        }
 
         int randonIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
         EnemySpawnPoint point = _spawnPoints[randonIndex];
 
         Enemy enemy = _enemysPool.Get();
 
-        enemy.ClearDeadEvent();
+        enemy.Dead += HandleEnemyDead;
 
         EnemySpawned?.Invoke(enemy);
-        enemy.Dead += HandleEnemyDead;
 
         enemy.transform.position = point.transform.position;
     }
@@ -88,23 +89,22 @@ public class EnemySpawner : MonoBehaviour
     {
         Enemy enemy = Instantiate(_enemyPrefab);
         
-        enemy.Despawned += HandleEnemyDead;
         enemy.gameObject.SetActive(false);
         return enemy;
     }
 
     private void HandleEnemyDead(Enemy enemy)
     {
+        enemy.Dead -= HandleEnemyDead;
         _enemysPool.Release(enemy);
     }
 
-    private void OnTakeEnemy(Enemy enemy) => enemy.gameObject.SetActive(true);
-    private void OnReturnEnemy(Enemy enemy) => enemy.gameObject.SetActive(false);
+    private void OnTakeEnemy(Enemy enemy) =>
+        enemy.gameObject.SetActive(true);
 
-    private void OnDestroyEnemy(Enemy enemy) 
-    {
-        enemy.Dead -= HandleEnemyDead;
-        enemy.Despawned -= HandleEnemyDead;
+    private void OnReturnEnemy(Enemy enemy) => 
+        enemy.gameObject.SetActive(false);
+
+    private void OnDestroyEnemy(Enemy enemy) =>
         Destroy(enemy.gameObject);
-    }
 } 

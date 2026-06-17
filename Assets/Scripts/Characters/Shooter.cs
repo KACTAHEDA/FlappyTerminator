@@ -31,12 +31,12 @@ public class Shooter : MonoBehaviour
 
     public void Shoot()
     {
-        Bullet bullet = _bulletPool.Get();       
+        Bullet bullet = _bulletPool.Get();
 
         bullet.transform.position = _attackPoint.position;
         bullet.transform.rotation = _attackPoint.rotation;
 
-        if(bullet.GetComponent<Collider2D>() == null || GetComponent<Collider2D>() == null)       
+        if (bullet.GetComponent<Collider2D>() == null || GetComponent<Collider2D>() == null)
             return;
 
         Physics2D.IgnoreCollision(
@@ -53,14 +53,22 @@ public class Shooter : MonoBehaviour
     {
         Bullet bullet = Instantiate(_bulletPrefab);
 
-        bullet.OnBulletFree += HandleBulletFree;
+        bullet.LifetimeEnded -= HandleBulletFree;
+        bullet.LifetimeEnded += HandleBulletFree;
 
         bullet.gameObject.SetActive(false);
         return bullet;
     }
 
-    private void HandleBulletFree(Bullet bullet) => _bulletPool.Release(bullet);
-    private void OnTakeBullet(Bullet bullet) => bullet.gameObject.SetActive(true);
-    private void OnReturnBullet(Bullet bullet) => bullet.gameObject.SetActive(false);
-    private void OnDestrouBuller(Bullet bullet) => Destroy(bullet.gameObject);
+    private void HandleBulletFree(Bullet bullet) =>
+        _bulletPool.Release(bullet);
+
+    private void OnTakeBullet(Bullet bullet) =>
+        bullet.gameObject.SetActive(true);
+
+    private void OnReturnBullet(Bullet bullet) =>
+        bullet.gameObject.SetActive(false);
+
+    private void OnDestrouBuller(Bullet bullet) =>
+        Destroy(bullet.gameObject);
 }

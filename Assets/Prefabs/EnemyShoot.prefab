@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4489011492646635499}
   - component: {fileID: 8636509268794779856}
   - component: {fileID: 2779827849187296149}
+  - component: {fileID: 9083453493796666119}
   m_Layer: 8
   m_Name: EnemyShoot
   m_TagString: Untagged
@@ -164,3 +165,15 @@ MonoBehaviour:
   _damage: 1
   _speed: 10
   _lifetime: 3
+--- !u!114 &9083453493796666119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2648992005857608208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c897721f39425344bb31d87791e1459b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

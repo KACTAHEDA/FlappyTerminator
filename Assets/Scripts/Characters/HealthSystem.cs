@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class HealthSystem : MonoBehaviour , IDamageble
+public class HealthSystem : MonoBehaviour , IDamageable
 {
     [SerializeField] private int _maxHealth = 1;
 
@@ -20,10 +20,15 @@ public class HealthSystem : MonoBehaviour , IDamageble
 
     public void TakeDamage(int damage)
     {
+        if (damage < 0)
+            return;
+
         _curentHealth -= damage;
+        _curentHealth = Mathf.Clamp(_curentHealth, 0, _maxHealth);
+
         HealthChanged?.Invoke();
 
-        if (_curentHealth <= 0)
+        if (_curentHealth == 0)
         {
             Die();
         }
